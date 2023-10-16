@@ -23,14 +23,18 @@ namespace xadrez_console
 
                     Console.Write("Origem: ");
                     Position origin = Screen.ReadChessPos().ToPosition();
+                    bool[,] possiblePositions = match.Board.GetBoardPiece(origin).PossibleMovements();
+
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board, possiblePositions);
+
+                    Console.WriteLine();
                     Console.Write("Destino: ");
                     Position destiny = Screen.ReadChessPos().ToPosition();
 
                     match.PerformMovement(origin, destiny);
 
                 }
-
-                
             }
            catch (BoardException e)
             {

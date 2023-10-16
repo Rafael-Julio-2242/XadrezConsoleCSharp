@@ -7,10 +7,16 @@
         public int Column { get; set; }
 
 
-        public Position(int line, int Column)
+        public Position(int line, int column)
         {
-            this.Line = line;
-            this.Column = Column;
+            Line = line;
+            Column = column;
+        }
+
+        public void DefineValues(int line, int column)
+        {
+            Line = line;
+            Column = column;
         }
 
         public override string ToString()
