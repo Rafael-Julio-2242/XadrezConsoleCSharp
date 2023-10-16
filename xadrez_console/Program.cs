@@ -16,24 +16,48 @@ namespace xadrez_console
 
                 while(!match.Finished)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
 
-                    Console.WriteLine();
+                        Console.WriteLine();
 
-                    Console.Write("Origem: ");
-                    Position origin = Screen.ReadChessPos().ToPosition();
-                    bool[,] possiblePositions = match.Board.GetBoardPiece(origin).PossibleMovements();
+                        Console.WriteLine("Turno: " + match.Turn);
 
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board, possiblePositions);
+                        string playerAtual = match.CurrentPlayer.ToString();
 
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Position destiny = Screen.ReadChessPos().ToPosition();
+                        if (playerAtual.Equals("White")) playerAtual = "Brancas";
+                        else playerAtual = "Pretas";
 
-                    match.PerformMovement(origin, destiny);
+                        Console.WriteLine("Aguardando jogada: " + playerAtual);
 
+                        Console.WriteLine();
+
+                        Console.Write("Origem: ");
+                        Position origin = Screen.ReadChessPos().ToPosition();
+
+                        match.ValidadeOriginPosition(origin);
+
+                        bool[,] possiblePositions = match.Board.GetBoardPiece(origin).PossibleMovements();
+
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possiblePositions);
+
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Position destiny = Screen.ReadChessPos().ToPosition();
+
+                        match.ValidadeDestinationPosition(origin, destiny);
+
+                        match.MakeMovement(origin, destiny);
+
+                    }
+                    catch(BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
             }
            catch (BoardException e)
