@@ -17,11 +17,16 @@ namespace board
             pieces = new Piece[Lines, Columns];
         }
 
-        public Piece GetPiece(int line, int column)
+        public Piece GetBoardPiece(int line, int column)
         {
             return pieces[line, column];
         }
 
+        public void SetBoardPiece(Piece p, Position pos)
+        {
+            pieces[pos.Line, pos.Column] = p;
+            p.Position = pos;
+        }
 
     }
 }

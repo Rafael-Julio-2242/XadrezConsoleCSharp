@@ -14,13 +14,13 @@ namespace xadrez_console
                 for (int j = 0; j < board.Columns; j++)
                 {
 
-                    if(board.GetPiece(i, j) == null)
+                    if(board.GetBoardPiece(i, j) == null)
                     {
                         Console.Write("- ");
                     }
                     else
                     {
-                        Console.Write(board.GetPiece(i, j) + " ");
+                        Console.Write(board.GetBoardPiece(i, j) + " ");
                     }
                 }
                 Console.WriteLine();
