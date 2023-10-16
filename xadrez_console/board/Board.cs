@@ -44,6 +44,22 @@ namespace board
             p.Position = pos;
         }
 
+        // Função para tirar uma peça do tabuleiro
+        public Piece WithdrawPiece(Position pos)
+        {
+            // Caso não tenha nada nessa posição, retorna nulo
+            if (GetBoardPiece(pos) == null) return null;
+            // Pego a peça que está nessa posição
+            Piece aux = GetBoardPiece(pos);
+            // Digo que ela não tem nenhuma posição por enquanto
+            aux.Position = null;
+            // Valo que a matriz de peças não tem nada lá agora
+            pieces[pos.Line, pos.Column] = null;
+            // Retorno a peça
+            return aux;
+
+        }
+
         // Testando se uma dada posição é válida
         public bool ValidPosition(Position pos)
         {

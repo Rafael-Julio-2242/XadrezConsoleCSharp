@@ -1,6 +1,7 @@
 ﻿using System;
 using board;
 using enums;
+using chess;
 
 namespace xadrez_console
 {
@@ -30,6 +31,18 @@ namespace xadrez_console
             }
 
             Console.WriteLine("  a b c d e f g h");
+
+        }
+
+
+        public static ChessPosition ReadChessPos()
+        {
+            string input = Console.ReadLine();
+
+            char column = input[0];
+            int line = int.Parse(input[1] + "");
+
+            return new ChessPosition(column, line);
 
         }
 
