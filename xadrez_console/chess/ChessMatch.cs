@@ -21,24 +21,27 @@ namespace chess
             Finished = false;
         }
 
+        // Função responsável por executar o movimento do jogador
         public void PerformMovement(Position origin, Position destiny)
         {
-            Piece p = Board.WithdrawPiece(origin);
-            p.IncreaseQuantityMovement();
+            Piece p = Board.WithdrawPiece(origin); // Pego a peça na posição de origem
+            p.IncreaseQuantityMovement(); // Aumento a quantidade de movimentos
 
-            Piece capturedPiece = Board.WithdrawPiece(destiny);
+            Piece capturedPiece = Board.WithdrawPiece(destiny); // Pego a peça capturada se houver
 
-            Board.SetBoardPiece(p, destiny);
+            Board.SetBoardPiece(p, destiny); // Coloco a peça na pos origem na pos destino
 
         }
 
+        // Função utilizada no movimento do jogador
         public void MakeMovement(Position origin, Position destiny)
         {
-            PerformMovement(origin, destiny);
-            Turn++;
-            ChangePlayer();
+            PerformMovement(origin, destiny); // Faz o movimento
+            Turn++; // Passa um turno
+            ChangePlayer(); // Muda qual jogador está jogando
         }
 
+        // Função responsável por validar uma posição origem
         public void ValidadeOriginPosition(Position pos)
         {
             if (Board.GetBoardPiece(pos) == null)
@@ -55,6 +58,7 @@ namespace chess
             }
         }
 
+        // Função responsável por validar a posição de destino
         public void ValidadeDestinationPosition(Position origin, Position destiny)
         {
             if(!Board.GetBoardPiece(origin).CanMoveTo(destiny))
@@ -63,13 +67,14 @@ namespace chess
             }
         }
 
+        // Função responsável por mudar o player atual
         private void ChangePlayer()
         {
             if (CurrentPlayer == Color.White) CurrentPlayer = Color.Black;
             else CurrentPlayer = Color.White;
         }
 
-        // Inicializando as peças
+        // Inicializando as peças do jogo
         private void PlacePieces()
         {
             Board.SetBoardPiece(new Tower(Board, Color.White), new ChessPosition('c', 1).ToPosition());

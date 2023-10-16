@@ -3,7 +3,7 @@
 
 namespace enums
 {
-    enum Color
+    enum Color // Enumerador de Cores
     {
         White,
         Black,

@@ -20,28 +20,30 @@ namespace board
 
         public bool IsPieceIn(Position pos) // Checa se existe uma peça em uma dada posição
         {
-            ValidadePosition(pos);
-            return GetBoardPiece(pos) != null;
+            ValidadePosition(pos); // Valida a posição selecionada
+            return GetBoardPiece(pos) != null; // Retorna se a peça está naquela posição ou não
         }
 
         public Piece GetBoardPiece(int line, int column) // Pega uma peça em uma dada posição
         {
-            return pieces[line, column];
+            return pieces[line, column]; // Retorna a peça na posição solicitada
         }
 
         // Sobrecarga
         public Piece GetBoardPiece(Position pos) // SobreCarga 'GetBoardPiece'(Pega uma peça em uma dada posição)
         {
 
-            return pieces[pos.Line, pos.Column];
+            return pieces[pos.Line, pos.Column];// Retorna a peça na posição solicitada
         }
 
+        // Coloca uma peça em uma posição especificada
         public void SetBoardPiece(Piece p, Position pos) // Seta uma peça em uma dada posição
         {
-            if (IsPieceIn(pos)) throw new BoardException("Já existe uma peça nessa posição");
+            if (IsPieceIn(pos)) throw new BoardException("Já existe uma peça nessa posição"); // Exceção
 
+            // Coloca a peça na posição especificada
             pieces[pos.Line, pos.Column] = p;
-            p.Position = pos;
+            p.Position = pos; // Atualiza a posição da peça
         }
 
         // Função para tirar uma peça do tabuleiro
@@ -65,15 +67,15 @@ namespace board
         {
             if(pos.Line < 0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns)
             {
-                return false;
+                return false; // Se não for válida retorna false
             }
-            return true;
+            return true; // Se for retorna true
         }
 
         // Tratando exceção de posição 
         public void ValidadePosition(Position pos)
         {
-            if (!ValidPosition(pos)) throw new BoardException("Posição Inválida!");
+            if (!ValidPosition(pos)) throw new BoardException("Posição Inválida!"); // Se a posição não for válida
         }
 
     }

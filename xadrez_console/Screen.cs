@@ -10,68 +10,73 @@ namespace xadrez_console
         // Imprime o tabuleiro na tela
         public static void PrintBoard(Board board)
         {
-
+            // Percorrendo o tabuleiro
             for (int i = 0; i < board.Lines; i++)
             {
-                Console.Write(8 - i + " ");
+                Console.Write(8 - i + " "); // Imprimindo os números da primeira coluna
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    
+                    // Mostrando aquilo que está na posição i j do tabuleiro
                     PrintPiece(board.GetBoardPiece(i, j));
                 }
                 Console.WriteLine();
             }
 
-            Console.WriteLine("  a b c d e f g h");
+            Console.WriteLine("  a b c d e f g h"); // Terminando a ultima linha
 
         }
 
+        // Método sobrecarregado que imprime o tabuleiro mudando as cores das posições possíveis
         public static void PrintBoard(Board board, bool[,] possiblePositions)
         {
-            ConsoleColor bgOriginColor = Console.BackgroundColor;
-            ConsoleColor highLightPosColor = ConsoleColor.DarkGray;
+            ConsoleColor bgOriginColor = Console.BackgroundColor; // Pega a cor natural do console
+            ConsoleColor highLightPosColor = ConsoleColor.DarkGray;// Pega a cor de "HightLight" de posições possíveis
 
+            // Percorre a matriz do tabuleiro
             for (int i = 0; i < board.Lines; i++)
             {
-                Console.Write(8 - i + " ");
+                Console.Write(8 - i + " "); // Escreve a primeira coluna de números
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    if (possiblePositions[i,j])
+                    if (possiblePositions[i,j]) // Se a posição atual for uma posição possível
                     {
-                        Console.BackgroundColor = highLightPosColor;
+                        Console.BackgroundColor = highLightPosColor; // Troca a cor do fundo da posição atual
                     }
                     else
                     {
-                        Console.BackgroundColor = bgOriginColor;
+                        Console.BackgroundColor = bgOriginColor; // Se não, coloca a cor normal
                     }
-                    PrintPiece(board.GetBoardPiece(i, j));
-                    Console.BackgroundColor = bgOriginColor;
+                    PrintPiece(board.GetBoardPiece(i, j)); // Mostra a peça
+                    Console.BackgroundColor = bgOriginColor; // Volta a cor normal
                 }
                 Console.WriteLine();
             }
 
-            Console.WriteLine("  a b c d e f g h");
-            Console.BackgroundColor = bgOriginColor;
+            Console.WriteLine("  a b c d e f g h"); // Finalizando a ultima linha
+            Console.BackgroundColor = bgOriginColor; // Voltando o console para a cor original
         }
+
+
+        // Função responsável por ler a posição digitada pelo jogador
         public static ChessPosition ReadChessPos()
         {
-            string input = Console.ReadLine();
+            string input = Console.ReadLine(); // Input
 
-            char column = input[0];
-            int line = int.Parse(input[1] + "");
+            char column = input[0]; // Coluna
+            int line = int.Parse(input[1] + ""); // Linha
 
-            return new ChessPosition(column, line);
+            return new ChessPosition(column, line); // Novo objeto 'ChessPosition' retornado
 
         }
 
-        // Função que imprime uma peça
+        // Função que imprime peças
         public static void PrintPiece(Piece piece)
         {
-            if (piece == null)
+            if (piece == null) // Se a peça for nula
             {
-                Console.Write("- ");
+                Console.Write("- "); // Imprimo isto
             }
-            else
+            else // Se não
             {
 
                 if (piece.Color == Color.White) // Se a peça for brance, simplesmente imprime a peça
