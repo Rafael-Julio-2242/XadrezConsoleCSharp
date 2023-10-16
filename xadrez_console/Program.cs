@@ -19,20 +19,9 @@ namespace xadrez_console
                     try
                     {
                         Console.Clear();
-                        Screen.PrintBoard(match.Board);
+                        
 
-                        Console.WriteLine();
-
-                        Console.WriteLine("Turno: " + match.Turn);
-
-                        string playerAtual = match.CurrentPlayer.ToString();
-
-                        if (playerAtual.Equals("White")) playerAtual = "Brancas";
-                        else playerAtual = "Pretas";
-
-                        Console.WriteLine("Aguardando jogada: " + playerAtual);
-
-                        Console.WriteLine();
+                        Screen.PrintMatch(match);
 
                         Console.Write("Origem: ");
                         Position origin = Screen.ReadChessPos().ToPosition();

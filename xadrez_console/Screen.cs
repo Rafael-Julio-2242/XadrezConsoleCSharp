@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using board;
 using enums;
 using chess;
+using System.Text.RegularExpressions;
 
 namespace xadrez_console
 {
@@ -24,6 +25,54 @@ namespace xadrez_console
 
             Console.WriteLine("  a b c d e f g h"); // Terminando a ultima linha
 
+        }
+
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintBoard(match.Board);
+
+            Console.WriteLine();
+
+            PrintCapturatedPieces(match);
+
+            Console.WriteLine();
+
+            Console.WriteLine("Turno: " + match.Turn);
+
+            string playerAtual = match.CurrentPlayer.ToString();
+
+            if (playerAtual.Equals("White")) playerAtual = "Brancas";
+            else playerAtual = "Pretas";
+
+            Console.WriteLine("Aguardando jogada: " + playerAtual);
+
+            Console.WriteLine();
+        }
+
+        public static void PrintCapturatedPieces(ChessMatch match)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Peças Capturadas: ");
+            Console.Write("Brancas: ");
+
+            PrintHashSet(match.GetCapturatedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PrintHashSet(match.GetCapturatedPieces(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+        public static void PrintHashSet(HashSet<Piece> hashset)
+        {
+            Console.Write("[");
+            foreach (Piece piece in hashset) 
+            {
+                Console.Write(piece + " ");
+            }
+            Console.Write("]");
         }
 
         // Método sobrecarregado que imprime o tabuleiro mudando as cores das posições possíveis
@@ -95,10 +144,6 @@ namespace xadrez_console
                 }
                 Console.Write(" ");
             }
-
-
         }
-
-
     }
 }
