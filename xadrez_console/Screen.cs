@@ -46,6 +46,11 @@ namespace xadrez_console
 
             Console.WriteLine("Aguardando jogada: " + playerAtual);
 
+            if(match.Check)
+            {
+                Console.WriteLine("CHECK! ");
+            }
+
             Console.WriteLine();
         }
 

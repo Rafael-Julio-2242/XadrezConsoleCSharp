@@ -75,7 +75,7 @@ namespace board
         // Tratando exceção de posição 
         public void ValidadePosition(Position pos)
         {
-            if (!ValidPosition(pos)) throw new BoardException("Posição Inválida!"); // Se a posição não for válida
+            if (!ValidPosition(pos)) throw new BoardException("Posição Inválida!"); // Se a posição não for válida\
         }
 
     }

@@ -25,6 +25,11 @@ namespace board
             QntMovements++;
         }
 
+        public void DecreaseQuantityMovement()
+        {
+            QntMovements--;
+        }
+
         // Função que verifica se é possível se mover
         public bool IsMovementPossible()
         {

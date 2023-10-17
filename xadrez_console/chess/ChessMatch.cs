@@ -14,13 +14,14 @@ namespace chess
 
         private HashSet<Piece> pieces;
         private HashSet<Piece> capturatedPieces;
-
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
             Board = new Board(8, 8);
             Turn = 1;
             CurrentPlayer = Color.White;
+            Check = false;
 
             pieces = new HashSet<Piece>();
             capturatedPieces = new HashSet<Piece>();
@@ -31,7 +32,7 @@ namespace chess
         }
 
         // Função responsável por executar o movimento do jogador
-        public void PerformMovement(Position origin, Position destiny)
+        public Piece PerformMovement(Position origin, Position destiny)
         {
             Piece p = Board.WithdrawPiece(origin); // Pego a peça na posição de origem
             p.IncreaseQuantityMovement(); // Aumento a quantidade de movimentos
@@ -44,13 +45,43 @@ namespace chess
             {
                 capturatedPieces.Add(capturedPiece);
             }
-
+            return capturedPiece;
         }
+
+        public void UndoMove(Position origin, Position destiny, Piece capturatedPiece)
+        {
+            Piece p = Board.WithdrawPiece(destiny);
+
+            p.DecreaseQuantityMovement();
+            if(capturatedPiece != null)
+            {
+                Board.SetBoardPiece(capturatedPiece, destiny);
+                capturatedPieces.Remove(capturatedPiece);
+            }
+            Board.SetBoardPiece(p, origin);
+
+        } 
 
         // Função utilizada no movimento do jogador
         public void MakeMovement(Position origin, Position destiny)
         {
-            PerformMovement(origin, destiny); // Faz o movimento
+            Piece capturatedPiece = PerformMovement(origin, destiny);
+            if (IsInCheck(CurrentPlayer))  
+            {
+               
+                UndoMove(origin, destiny, capturatedPiece);
+                throw new BoardException("Você não pode se colocar em Check");
+            }
+            if (IsInCheck(Adversary(CurrentPlayer)))
+            {
+               
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
             Turn++; // Passa um turno
             ChangePlayer(); // Muda qual jogador está jogando
         }
@@ -99,7 +130,7 @@ namespace chess
         {
             HashSet<Piece> aux = new HashSet<Piece>();
 
-            foreach (Piece p in capturatedPieces)
+            foreach (Piece p in pieces)
             {
                 if (p.Color == color) aux.Add(p);
 
@@ -107,6 +138,49 @@ namespace chess
             aux.ExceptWith(GetCapturatedPieces(color));
 
             return aux;
+        }
+
+        // Retorna a cor adversária
+        private Color Adversary(Color color)
+        {
+            if (color == Color.White) return Color.Black;
+            else return Color.White;
+        }
+
+
+        public bool IsInCheck(Color color)
+        {
+            Piece k = GetKing(color);
+            if(k == null)
+            {
+                throw new BoardException($"Não há rei da cor {color} no tabuleiro!");
+            }
+
+            foreach (Piece p in GetOnGamePieces(Adversary(color)))
+            {
+                bool[,] mat = p.PossibleMovements();
+                if (mat[k.Position.Line, k.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Piece GetKing(Color color)
+        {
+            foreach (Piece p in GetOnGamePieces(color))
+            {
+
+                if(p is King)
+                {
+                    
+                    return p;
+                }
+
+            }
+            
+            return null;
         }
 
         public HashSet<Piece> GetCapturatedPieces(Color color)
@@ -121,6 +195,8 @@ namespace chess
 
             return aux;
         }
+
+
 
         // Inicializando as peças do jogo
         private void PlacePieces()
