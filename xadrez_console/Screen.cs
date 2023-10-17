@@ -44,12 +44,27 @@ namespace xadrez_console
             if (playerAtual.Equals("White")) playerAtual = "Brancas";
             else playerAtual = "Pretas";
 
-            Console.WriteLine("Aguardando jogada: " + playerAtual);
-
-            if(match.Check)
+            if(!match.Finished)
             {
-                Console.WriteLine("CHECK! ");
+                Console.WriteLine("Aguardando jogada: " + playerAtual);
+
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK! ");
+                }
             }
+            else
+            {
+                Console.WriteLine("CHECKMATE! ");
+                string corVencedora = match.CurrentPlayer.ToString();
+                if (corVencedora == "White") corVencedora = "Brancas";
+                else corVencedora = "Pretas";
+                Console.WriteLine("Vencedor: " + corVencedora);
+            }
+
+            
+
+
 
             Console.WriteLine();
         }

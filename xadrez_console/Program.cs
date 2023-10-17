@@ -19,8 +19,6 @@ namespace xadrez_console
                     try
                     {
                         Console.Clear();
-                        
-
                         Screen.PrintMatch(match);
 
                         Console.Write("Origem: ");
@@ -48,6 +46,10 @@ namespace xadrez_console
                         Console.ReadLine();
                     }
                 }
+
+                Console.Clear();
+                Screen.PrintMatch(match);
+
             }
            catch (BoardException e)
             {
