@@ -45,6 +45,30 @@ namespace chess
             {
                 capturatedPieces.Add(capturedPiece);
             }
+
+            // #jogadaEspecial roque pequeno
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+
+                Piece T = Board.WithdrawPiece(originT);
+                T.IncreaseQuantityMovement();
+                Board.SetBoardPiece(T, destinyT);
+            }
+
+            // #jogadaEspecial roque grande
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+
+                Piece T = Board.WithdrawPiece(originT);
+                T.IncreaseQuantityMovement();
+                Board.SetBoardPiece(T, destinyT);
+            }
+
+
             return capturedPiece;
         }
 
@@ -59,6 +83,28 @@ namespace chess
                 capturatedPieces.Remove(capturatedPiece);
             }
             Board.SetBoardPiece(p, origin);
+
+            // #jogadaEspecial roque pequeno
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+
+                Piece T = Board.WithdrawPiece(destinyT);
+                T.DecreaseQuantityMovement();
+                Board.SetBoardPiece(T, originT);
+            }
+
+            // #jogadaEspecial roque grande
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+
+                Piece T = Board.WithdrawPiece(destinyT);
+                T.IncreaseQuantityMovement();
+                Board.SetBoardPiece(T, originT);
+            }
 
         } 
 
@@ -254,7 +300,7 @@ namespace chess
             PlaceNewPiece('b', 1, new Knight(Board, Color.White));
             PlaceNewPiece('c', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('d', 1, new Queen (Board, Color.White));
-            PlaceNewPiece('e', 1, new King  (Board, Color.White));
+            PlaceNewPiece('e', 1, new King  (Board, Color.White, this));
             PlaceNewPiece('f', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('g', 1, new Knight(Board, Color.White));
             PlaceNewPiece('h', 1, new Tower (Board, Color.White));
@@ -272,7 +318,7 @@ namespace chess
             PlaceNewPiece('b', 8, new Knight(Board, Color.Black));
             PlaceNewPiece('c', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('d', 8, new Queen (Board, Color.Black));
-            PlaceNewPiece('e', 8, new King  (Board, Color.Black));
+            PlaceNewPiece('e', 8, new King  (Board, Color.Black, this));
             PlaceNewPiece('f', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('g', 8, new Knight(Board, Color.Black));
             PlaceNewPiece('h', 8, new Tower (Board, Color.Black));
