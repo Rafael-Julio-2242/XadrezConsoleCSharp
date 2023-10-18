@@ -90,6 +90,8 @@ namespace chess
                 }
             }
 
+
+
             return capturedPiece;
         }
 
@@ -158,6 +160,24 @@ namespace chess
                 UndoMove(origin, destiny, capturatedPiece);
                 throw new BoardException("Você não pode se colocar em Check");
             }
+
+            Piece p = Board.GetBoardPiece(destiny);
+
+            // #JogadaEspecial Promoção
+            if (p is Pawn)
+            {
+                if ((p.Color == Color.White && destiny.Line == 0) || (p.Color == Color.Black && destiny.Line == 7))
+                {
+                    p = Board.WithdrawPiece(destiny);
+                    pieces.Remove(p);
+
+                    Piece queen = new Queen(Board, p.Color);
+                    Board.SetBoardPiece(queen, destiny);
+                    pieces.Add(queen);
+
+                }
+            }
+
             if (IsInCheck(Adversary(CurrentPlayer)))
             {
                
@@ -180,7 +200,7 @@ namespace chess
 
             }
             
-            Piece p = Board.GetBoardPiece(destiny); 
+            
 
             // #JogadaEspecial En Passant
             if(p is Pawn && (destiny.Line == origin.Line - 2 || destiny.Line == origin.Line + 2))
