@@ -1,0 +1,1 @@
+Esse projeto é um jogo de xadrez feito inteiramente em C# e ele é jogado apenas através do Console. Esse documento marca o fim do projeto
