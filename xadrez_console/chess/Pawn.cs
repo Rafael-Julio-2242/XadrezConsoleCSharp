@@ -6,8 +6,12 @@ namespace chess
 {
     class Pawn : Piece
     {
+        private ChessMatch match;
 
-        public Pawn(Board board, Color color) : base(board, color) { }
+        public Pawn(Board board, Color color, ChessMatch match) : base(board, color)
+        {
+            this.match = match;
+        }
 
         public override string ToString()
         {
@@ -42,9 +46,9 @@ namespace chess
             bool[,] mat = new bool[Board.Lines, Board.Columns];
 
             // Posição a ser verificada
-            Position pos = new Position(0,0);
+            Position pos = new Position(0, 0);
 
-            if(Color == Color.White)
+            if (Color == Color.White)
             {
                 pos.DefineValues(Position.Line - 1, Position.Column);
                 if (Board.ValidPosition(pos) && CanMove(pos))
@@ -69,6 +73,26 @@ namespace chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                // #JogadaEspecial EnPassant
+                if (Position.Line == 3)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && EnemyExists(left) 
+                        && Board.GetBoardPiece(left) == match.EnPassantVulnerable)
+                    {
+                        mat[left.Line - 1, left.Column] = true;
+                    }
+
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && EnemyExists(right)
+                        && Board.GetBoardPiece(right) == match.EnPassantVulnerable)
+                    {
+                        mat[right.Line - 1, right.Column] = true;
+                    }
+
+                }
+
             }
             else
             {
@@ -97,14 +121,25 @@ namespace chess
                 }
 
 
+                // #JogadaEspecial EnPassant
+                if (Position.Line == 4)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && EnemyExists(left)
+                        && Board.GetBoardPiece(left) == match.EnPassantVulnerable)
+                    {
+                        mat[left.Line + 1, left.Column] = true;
+                    }
+
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && EnemyExists(right)
+                        && Board.GetBoardPiece(right) == match.EnPassantVulnerable)
+                    {
+                        mat[right.Line + 1, right.Column] = true;
+                    }
+
+                }
             }
-
-
-
-            
-            
-
-           
 
             return mat; // Retorna a matriz de movimentos possíveis
         }
